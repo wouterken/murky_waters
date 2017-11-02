@@ -2,8 +2,8 @@ module Murky
   class Proof
     attr_reader :root, :siblings, :signature
 
-    FILE_HEADER  = "#{?= * 20} BEGIN MURKY PROOF #{?= * 20} "
-    FILE_FOOTER  = "#{?= * 20} BEGIN MURKY PROOF #{?= * 20} "
+    FILE_HEADER  = "#{?= * 15} BEGIN MURKY PROOF #{?= * 15} "
+    FILE_FOOTER  = "#{?= * 15} END MURKY PROOF   #{?= * 15} "
     INPUT_REGEXP = %r{#{FILE_HEADER}\n(.*?)\n#{FILE_FOOTER}}m
 
     def initialize(root:, siblings:, signature:, digest:)
