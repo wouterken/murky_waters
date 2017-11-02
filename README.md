@@ -1,8 +1,11 @@
 # MurkyWaters
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/murky_waters`. To experiment with that code, run `bin/console` for an interactive prompt.
+MurkyWaters is a simple implementation of a merkle tree backed dictionary.
 
-TODO: Delete this and the text above, and describe your gem
+You can use this as an you would any ordinary dictionary structure with the added functionality
+that you can generate verifiable proofs of the dictionary structure and presence of leaf nodes in the dictionary. Proofs for individual leaves can exist with zero-knowledge of the contents of other leaves in the dictionary.
+
+In short, this can allow you to provide proof of knowledge of some subset of a larger set of data without leaking any information.
 
 ## Installation
 
@@ -25,20 +28,20 @@ Or install it yourself as:
 To construct a new Merkle tree backed ordered dictionary
 
 ### Basics
-```
+```ruby
     # A new, empty Merkle tree dictionary
-    tree = Murky::Dict()
+    dict = Murky::Dict()
 
     # Specify a custom backing dictionary, default implementation is Hash
-    tree = Murky::Dict(data: acts_like_a_dictionary)
+    dict = Murky::Dict(data: acts_like_a_dictionary)
 
     # Specify a custom digest class, must #respond_to?(:digest)
-    tree = Murky::Dict(digest: Digest::SHA256)
+    dict = Murky::Dict(digest: Digest::SHA256)
 ```
 
-To accesss, add and remove data to be indexed in our tree
+To accesss, add and remove data to be indexed in our dict
 
-```
+```ruby
   dict["hello"] = "world"  # Add data
   dict.delete("hello")     # Delete data
   dict["hello"]            # Retrieve data
@@ -51,7 +54,7 @@ To accesss, add and remove data to be indexed in our tree
 ```
 
 ### Proofs
-```
+```ruby
   # Generate a proof that "hello" exists inside of our dictionary and a merkle root/signature for our entire dictionary contents
   dict.proof("hello")
   #  => #<Murky::Proof:0x007f9d1ef5c810
@@ -69,7 +72,7 @@ To accesss, add and remove data to be indexed in our tree
   # @valid=true>
 ```
 ### Verification
-```
+```ruby
   # Perform a verification for a root, and a merkle path/sibling list and some value.
   It verifies that this value resides in the dictionary represented by our root signature. From this we can conclude that the size, shape and order of the tree for this merkle root are unchanged from when this proof was generated and that our value does indeed exist within the dictionary.
 
@@ -95,20 +98,22 @@ The prerequisites of this structure are that:
   * It implements #keys
   * It implements #values
 
-You can pass this structure into the constuctor of the Merkle::Dict. E.g
+You can pass this structure into the constuctor of the Murky::Dict. E.g
 
 ```ruby
-Merkle::Dict(data: {foo: :bar})
+Murky::Dict(data: {foo: :bar})
 ```
 ### Saving and restoring proofs
 
 Proofs can be saved to, and restored from a file.
 E.g
 
-dict.proof(:my_value).output("/Users/pico/Desktop/proof.txt")
+```ruby
+  dict.proof(:my_value).output("/Users/pico/Desktop/proof.txt")
 
-proof = Murky::Proof.from_file("/Users/pico/Desktop/proof.txt")
-proof.valid? #=> true
+  proof = Murky::Proof.from_file("/Users/pico/Desktop/proof.txt")
+  proof.valid? #=> true
+```
 
 ## Development
 
@@ -118,7 +123,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/murky_waters. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/wouterken/murky_waters. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## Code of Conduct
 
