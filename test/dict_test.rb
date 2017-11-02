@@ -71,4 +71,17 @@ class DictTest < Minitest::Test
   def test_class_constructor
     assert_equal Murky::Dict.new(), Murky::Dict()
   end
+
+  def test_each
+    assert_equal @dict.each.to_a, @dict.data.each.to_a
+  end
+
+  def test_keys
+    assert_equal @dict.keys, [:password, :passport_number, :credit_card_number, :puk_code, :private_key]
+  end
+
+  def test_str_repr
+    assert_equal @dict.to_s, @dict.inspect
+    assert_equal eval(@dict.inspect), @dict
+  end
 end

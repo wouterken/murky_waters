@@ -50,10 +50,10 @@ To accesss, add and remove data to be indexed in our dict
   dict.delete("hello")     # Delete data
   dict["hello"]            # Retrieve data
   dict.siblings("hello")   # => [
-                           #  "OLpNd02wZa5e2XMKG/8rFMUKFVUq/yy6F+c3Rd09eKc=\n",
-                           #  "GySoYGQjpOMz62o7F56Al67mVjB9IP5GxpBmbQvp3wc=\n"
+                           #   "\xB0\x1F0Ji\ri\xE3\xFBMI\x9FU:=\xFF\xC3t\xD1\xCA6v\x11}'Q\x8E\xCD\x16t\xF4{",
+                           #   "C\xEE\x89iS$s\xA9\xBE\xCD:\xD3ob\xE5\x8C\xBC\xE3g\x04\x00\x85Z\xBE@\x8Bu\xE4(\eR\xB4",
+                           #   "\xC9\xDCj6\xC3g\f\xB2\xCEr\x05\xFB\xA4[\x06\xF5--q\xFA\xA4\xE9\x95c\xB0\xC8]\xB5\xBD\x1D\xC5\x12"
                            # ]
-
   dict.root                # "anajKi18I3C9TlVEcU//hZsw9i4sknlYCTspTQXxCr0=\n" # The merkle root/signature of our entire dictionary contents
 ```
 
@@ -61,38 +61,28 @@ To accesss, add and remove data to be indexed in our dict
 ```ruby
   # Generate a proof that "hello" exists inside of our dictionary and a merkle root/signature for our entire dictionary contents
   dict.proof("hello")
-  #  => #<Murky::Proof:0x007f9d1ef5c810
-  # @digest=
-  #  #<Digest::SHA256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855>,
-  # @root="anajKi18I3C9TlVEcU//hZsw9i4sknlYCTspTQXxCr0=\n",
+  # => #<Murky::Proof:0x007fc9c2f1ef30
+  # @digest=#<Digest::SHA256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855>,
+  # @root="\x80\xF5\x9F\xFF\xAD\xC2-\x85t\xCCY\xC8\x90\xBB\x9D\xC2\x16@\x02-\x1C&k\xB8>\xA6\xC3[\x8C'I\xE6",
   # @siblings=
-  #  ["47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\n",
-  #   "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\n",
-  #   "qZDReXdlGqrjRUZy3nSfWXY6y8KYxwb+A7K6/Xg7Nxc=\n",
-  #   "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\n",
-  #   "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\n",
-  #   "jqwjgWe5ZVi9USkRcycxwiXtFtSLbycfKHJRJ8Scm3A=\n",
-  #   "ujOfV44N03rF/+m6+eONFRPJYmstEnhsh2YcKdIUyVU=\n"],
+  #  ["\xB0\x1F0Ji\ri\xE3\xFBMI\x9FU:=\xFF\xC3t\xD1\xCA6v\x11}'Q\x8E\xCD\x16t\xF4{",
+  #   "C\xEE\x89iS$s\xA9\xBE\xCD:\xD3ob\xE5\x8C\xBC\xE3g\x04\x00\x85Z\xBE@\x8Bu\xE4(\eR\xB4",
+  #   "}q\x80\xE0:\xD1Am\xDB.@g\xDE\xE8u\xC1h\xD92\x8F\x19l\xAD]\x02)I\rn\xC1z\x96"],
+  # @signature="\x90\xE3\xC8\xFCn\x86\x15\"\x94\x84`\xEC\xFB\xC2\xEE^;\xDD\x9B\xF1\x89\v\xE04u\r\xE4\b\xA5\xE0$l",
   # @valid=true>
+  #
 ```
+
 ### Verification
 ```ruby
   # Perform a verification for a root, and a merkle path/sibling list and some value.
   It verifies that this value resides in the dictionary represented by our root signature. From this we can conclude that the size, shape and order of the tree for this merkle root are unchanged from when this proof was generated and that our value does indeed exist within the dictionary.
 
-  # Murky.verify(root, siblings, value) # => true/false
+  # Murky.verify(root, siblings, data) # => true/false
   Murky.verify(
-    "EpU7Zx9tzTCGGyQtNQgC5Iu8IxRlXFjwG7KCjqfuRwI=\n",
-    [
-      "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\n",
-      "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\n",
-      "qZDReXdlGqrjRUZy3nSfWXY6y8KYxwb+A7K6/Xg7Nxc=\n",
-      "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\n",
-      "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\n",
-      "jqwjgWe5ZVi9USkRcycxwiXtFtSLbycfKHJRJ8Scm3A=\n",
-      "ujOfV44N03rF/+m6+eONFRPJYmstEnhsh2YcKdIUyVU=\n"
-    ],
-    "world"
+    root,
+    siblings,
+    data
   ) # => true if verification passes
 ```
 A tree can optionally be backed by any dictionary like data structure to store the real leaf data.

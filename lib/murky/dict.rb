@@ -1,5 +1,6 @@
 module Murky
   class Dict
+    include Enumerable
     attr_reader :root
 
     def initialize(data: {}, digest: Digest::SHA256.new)
@@ -52,7 +53,11 @@ module Murky
     end
 
     def root
-      @root = @changed ? compute_root : @root
+      @root = (@changed || @root.nil?) ? compute_root : @root
+    end
+
+    def each(&block)
+      data.each(&block)
     end
 
     def proof(key)
@@ -80,11 +85,11 @@ module Murky
     end
 
     def to_s
-      "Murky::Dict(#{data.to_s})"
+      "Murky::Dict(data: #{data.to_s})"
     end
 
     def inspect
-      "Murky::Dict(#{data.inspect})"
+      "Murky::Dict(data: #{data.inspect})"
     end
 
     private
