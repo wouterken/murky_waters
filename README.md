@@ -1,5 +1,9 @@
 # MurkyWaters
 
+[![Murky Waters](https://img.shields.io/badge/Murky%20Waters--green.svg)](https://github.com/wouterken/murky_waters)
+[![Gem Version](https://badge.fury.io/rb/murky_waters.svg)](http://badge.fury.io/rb/murky_waters)
+[![Downloads](https://img.shields.io/gem/dt/murky_waters/stable.svg)](https://img.shields.io/gem/dt/murky_waters)
+
 MurkyWaters is a simple implementation of a merkle tree backed dictionary.
 
 You can use this as an you would any ordinary dictionary structure with the added functionality
