@@ -9,6 +9,14 @@ module Murky
       define_singleton_method(:data, ->{data})
     end
 
+    def ==(other)
+      other.respond_to?(:data) && data == other.data
+    end
+
+    def size
+      data.size
+    end
+
     def keys
       data.keys
     end
@@ -22,7 +30,7 @@ module Murky
     end
 
     def height
-      Math.ceil(Math.log(@size, 2))
+      Math.log(size, 2).ceil
     end
 
     def sign(value)

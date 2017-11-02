@@ -2,6 +2,7 @@ require 'murky/version'
 require 'murky/dict'
 require 'murky/proof'
 require 'base64'
+require 'openssl'
 
 module Murky
   module_function
